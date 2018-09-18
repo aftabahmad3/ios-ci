@@ -1,23 +1,30 @@
 default_platform(:ios)
 
 platform :ios do
+
+  before_all do
+    ENV['JOB_IMAGE_NAME'] = "#{ENV['ANKA_IMAGE_NAME']}-#{ENV['BUILDKITE_BUILD_NUMBER']}"
+  end
+
   desc "Lane to setup Anka VM for CI"
   lane :setup_anka do
-    job_image_name = "#{ENV['ANKA_IMAGE_NAME']}-#{ENV['BUILDKITE_JOB_ID']}"
-
     begin
-      sh("anka delete --yes #{job_image_name}")
+      sh("anka delete --yes #{ENV['JOB_IMAGE_NAME']}")
     rescue => ex
-      UI.message("No VM with #{job_image_name} exists.")
+      UI.message("No VM with #{ENV['JOB_IMAGE_NAME']} exists.")
     end
 
-    sh("anka clone #{ANKA_IMAGE_NAME} #{job_image_name}")
+    sh("anka clone #{ENV['ANKA_IMAGE_NAME']} #{ENV['JOB_IMAGE_NAME']}")
   end
 
   desc "Lane to cleanup Anka VM after CI"
   lane :cleanup_anka do
-    job_image_name = "#{ENV['ANKA_IMAGE_NAME']}-#{ENV['BUILDKITE_JOB_ID']}"
-    sh("anka delete --yes #{job_image_name}")
+    sh("anka delete --yes #{ENV['JOB_IMAGE_NAME']}")
+  end
+
+  desc "Lane to run tests in Anka"
+  lane :anka_test do
+    sh("cd ../; anka run #{ENV['JOB_IMAGE_NAME']} bash -c 'source ~/.bash_profile; bundle update && bundle install; bundle exec fastlane test'")
   end
 
   desc "Lane to run tests"

@@ -26,6 +26,11 @@ Lane to setup Anka VM for CI
 fastlane ios cleanup_anka
 ```
 Lane to cleanup Anka VM after CI
+### ios anka_test
+```
+fastlane ios anka_test
+```
+Lane to run tests in Anka
 ### ios test
 ```
 fastlane ios test

@@ -1,0 +1,14 @@
+env:
+  ANKA_IMAGE_NAME: myhisierravm
+
+steps:
+  - label: "Setup Anka VM"
+    command: "bundle exec fastlane setup_anka"
+
+  - wait
+  - label: "Unit Tests"
+    command: "bundle exec fastlane anka_test"
+
+  - wait
+  - label: "Cleanup Anka"
+    command: "bundle exec fastlane cleanup_anka"
