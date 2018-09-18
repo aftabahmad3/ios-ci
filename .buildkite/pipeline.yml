@@ -8,7 +8,9 @@ steps:
   - wait
   - label: "Unit Tests"
     command: "bundle exec fastlane anka_test"
+    artifact_paths:
+      - "fastlane/test_output/*"
 
   - wait
-  - label: "Cleanup Anka"
+  - label: "Cleanup Anka VM"
     command: "bundle exec fastlane cleanup_anka"

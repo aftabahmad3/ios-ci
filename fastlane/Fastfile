@@ -29,6 +29,6 @@ platform :ios do
 
   desc "Lane to run tests"
   lane :test do
-    scan
+    run_tests
   end
 end
