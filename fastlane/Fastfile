@@ -24,7 +24,7 @@ platform :ios do
 
   desc "Lane to run tests in Anka"
   lane :anka_test do
-    sh("cd ../; anka run #{ENV['JOB_IMAGE_NAME']} bash -c 'source ~/.bash_profile; bundle update && bundle install; bundle exec fastlane test'")
+    sh("cd ../; anka run #{ENV['JOB_IMAGE_NAME']} bash -c 'source ~/.bash_profile; bundle install; bundle exec fastlane test'")
   end
 
   desc "Lane to run tests"
